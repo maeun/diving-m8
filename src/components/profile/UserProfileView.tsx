@@ -20,6 +20,7 @@ import {
   Shield,
   Bell,
   Globe,
+  Building2,
 } from 'lucide-react';
 import { UserProfile, SavedItem, UserActivity } from '@/types';
 
@@ -112,7 +113,7 @@ export function UserProfileView({ userId }: UserProfileViewProps) {
   const [activities, setActivities] = useState<UserActivity[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'saved' | 'activity' | 'settings'
+    'overview' | 'saved' | 'activity' | 'verification' | 'settings'
   >('overview');
 
   useEffect(() => {
@@ -258,6 +259,7 @@ export function UserProfileView({ userId }: UserProfileViewProps) {
                 { key: 'overview', label: '개요', icon: User },
                 { key: 'saved', label: '저장된 항목', icon: Heart },
                 { key: 'activity', label: '활동 내역', icon: MessageCircle },
+                { key: 'verification', label: '인증', icon: Shield },
                 { key: 'settings', label: '설정', icon: Settings },
               ].map(({ key, label, icon: Icon }) => (
                 <button
@@ -418,6 +420,140 @@ export function UserProfileView({ userId }: UserProfileViewProps) {
                       ))}
                     </div>
                   )}
+                </CardContent>
+              </Card>
+            )}
+
+            {activeTab === 'verification' && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Shield className="h-5 w-5 text-blue-600" />
+                    인증 관리
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    {/* Current Status */}
+                    <div className="text-center py-8">
+                      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Shield className="h-8 w-8 text-gray-400" />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">
+                        인증되지 않은 계정
+                      </h3>
+                      <p className="text-gray-600 mb-6">
+                        강사 또는 리조트 운영자로 활동하려면 인증이 필요합니다.
+                      </p>
+                    </div>
+
+                    {/* Verification Options */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="border rounded-lg p-6 hover:border-blue-300 transition-colors">
+                        <div className="flex items-center mb-4">
+                          <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                            <User className="h-6 w-6 text-blue-600" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold">강사 인증</h4>
+                            <p className="text-sm text-gray-600">
+                              다이빙 강사로 활동
+                            </p>
+                          </div>
+                        </div>
+                        <ul className="text-sm text-gray-600 space-y-1 mb-4">
+                          <li>• 다이빙 자격증 필요</li>
+                          <li>• 학생 모집 및 교육 가능</li>
+                          <li>• 프로필 우선 노출</li>
+                        </ul>
+                        <Button
+                          className="w-full"
+                          onClick={() =>
+                            (window.location.href =
+                              '/verification?type=instructor')
+                          }
+                        >
+                          강사 인증 신청
+                        </Button>
+                      </div>
+
+                      <div className="border rounded-lg p-6 hover:border-green-300 transition-colors">
+                        <div className="flex items-center mb-4">
+                          <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                            <Building2 className="h-6 w-6 text-green-600" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold">리조트 인증</h4>
+                            <p className="text-sm text-gray-600">
+                              다이빙 리조트 운영
+                            </p>
+                          </div>
+                        </div>
+                        <ul className="text-sm text-gray-600 space-y-1 mb-4">
+                          <li>• 사업자등록증 필요</li>
+                          <li>• 고객 예약 접수 가능</li>
+                          <li>• 리조트 정보 등록</li>
+                        </ul>
+                        <Button
+                          className="w-full bg-green-600 hover:bg-green-700"
+                          onClick={() =>
+                            (window.location.href = '/verification?type=resort')
+                          }
+                        >
+                          리조트 인증 신청
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Benefits */}
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                      <h4 className="font-medium text-blue-900 mb-2">
+                        인증 혜택
+                      </h4>
+                      <ul className="text-sm text-blue-800 space-y-1">
+                        <li>• 신뢰할 수 있는 전문가로 인정</li>
+                        <li>• 검색 결과 상위 노출</li>
+                        <li>• 전용 관리 도구 제공</li>
+                        <li>• 고객 문의 우선 처리</li>
+                        <li>• 마케팅 지원 및 프로모션 참여</li>
+                      </ul>
+                    </div>
+
+                    {/* FAQ */}
+                    <div className="space-y-3">
+                      <h4 className="font-medium">자주 묻는 질문</h4>
+                      <div className="space-y-2">
+                        <details className="border rounded-lg">
+                          <summary className="p-3 cursor-pointer hover:bg-gray-50">
+                            인증에 얼마나 걸리나요?
+                          </summary>
+                          <div className="p-3 pt-0 text-sm text-gray-600">
+                            일반적으로 서류 제출 후 1-3일 내에 검토가
+                            완료됩니다.
+                          </div>
+                        </details>
+                        <details className="border rounded-lg">
+                          <summary className="p-3 cursor-pointer hover:bg-gray-50">
+                            인증 비용이 있나요?
+                          </summary>
+                          <div className="p-3 pt-0 text-sm text-gray-600">
+                            인증 자체는 무료입니다. 다만 서비스 이용 시 수수료가
+                            발생할 수 있습니다.
+                          </div>
+                        </details>
+                        <details className="border rounded-lg">
+                          <summary className="p-3 cursor-pointer hover:bg-gray-50">
+                            필요한 서류는 무엇인가요?
+                          </summary>
+                          <div className="p-3 pt-0 text-sm text-gray-600">
+                            강사: 다이빙 자격증, 신분증, 보험증서(선택)
+                            <br />
+                            리조트: 사업자등록증, 보험증서, 시설 인증서(선택)
+                          </div>
+                        </details>
+                      </div>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             )}

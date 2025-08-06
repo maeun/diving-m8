@@ -97,7 +97,7 @@ export function StatisticsSection() {
     {
       icon: Heart,
       number: '10000',
-      label: '만족한 고객',
+      label: '함께하는 다이버들',
       color: 'bg-red-500',
       delay: 400,
     },

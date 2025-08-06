@@ -5,10 +5,11 @@ import { User, Building2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface DefaultAvatarProps {
-  type: 'instructor' | 'resort';
-  name?: string;
-  className?: string;
+  name: string;
+  type?: 'instructor' | 'user';
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  imageUrl?: string;
+  className?: string;
 }
 
 const sizeClasses = {
@@ -26,10 +27,11 @@ const iconSizeClasses = {
 };
 
 export function DefaultAvatar({
-  type,
+  type = 'user',
   name,
-  className,
   size = 'md',
+  imageUrl,
+  className,
 }: DefaultAvatarProps) {
   // Generate initials from name
   const getInitials = (name?: string) => {
@@ -42,25 +44,30 @@ export function DefaultAvatar({
     return (words[0][0] + words[words.length - 1][0]).toUpperCase();
   };
 
-  // Color scheme based on type
+  const initials = getInitials(name);
+  const Icon = type === 'instructor' ? User : Building2;
+
   const colorScheme =
     type === 'instructor'
       ? 'bg-blue-100 text-blue-700 border-blue-200'
       : 'bg-green-100 text-green-700 border-green-200';
 
-  const Icon = type === 'instructor' ? User : Building2;
-  const initials = getInitials(name);
-
   return (
     <div
       className={cn(
-        'flex items-center justify-center rounded-lg border-2 flex-shrink-0',
+        'flex items-center justify-center rounded-lg border-2 overflow-hidden flex-shrink-0',
         sizeClasses[size],
         colorScheme,
         className
       )}
     >
-      {name ? (
+      {imageUrl ? (
+        <img
+          src={imageUrl}
+          alt={`${name || '사용자'}의 프로필 이미지`}
+          className="w-full h-full object-cover"
+        />
+      ) : name ? (
         <span
           className={cn(
             'font-semibold',

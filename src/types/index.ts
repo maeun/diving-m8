@@ -42,18 +42,14 @@ export interface Media {
 
 export interface InstructorProfile {
   id: string;
-  userId: string;
   name: string;
+  profileImage: string;
   bio: string;
-  location: {
-    latitude: number;
-    longitude: number;
-  };
+
   address: string;
   certifications: Certification[];
   experience: number; // years
   specialties: string[];
-  languages: string[];
   services: Service[];
   gallery: Media[];
   socialLinks: {
@@ -205,6 +201,65 @@ export interface UserActivity {
   targetType?: 'instructor' | 'resort';
   metadata?: Record<string, any>;
   timestamp: Timestamp;
+}
+
+// Verification Types
+export interface VerificationRequest {
+  id: string;
+  userId: string;
+  userType: 'instructor' | 'resort';
+  status: 'pending' | 'approved' | 'rejected' | 'under_review';
+  submittedAt: Timestamp;
+  reviewedAt?: Timestamp;
+  reviewedBy?: string;
+  rejectionReason?: string;
+  documents: VerificationDocument[];
+  businessInfo: BusinessInfo;
+  contactInfo: ContactInfo;
+}
+
+export interface VerificationDocument {
+  id: string;
+  type:
+    | 'business_license'
+    | 'certification'
+    | 'insurance'
+    | 'id_card'
+    | 'other';
+  name: string;
+  url: string;
+  uploadedAt: Timestamp;
+  verified: boolean;
+}
+
+export interface BusinessInfo {
+  businessName: string;
+  businessNumber?: string;
+  businessType: string;
+  establishedYear?: number;
+  description: string;
+  website?: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  };
+}
+
+export interface ContactInfo {
+  primaryContact: {
+    name: string;
+    position: string;
+    email: string;
+    phone: string;
+  };
+  emergencyContact?: {
+    name: string;
+    relationship: string;
+    phone: string;
+  };
 }
 
 // Kakao Login Types

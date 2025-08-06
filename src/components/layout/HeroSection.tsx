@@ -3,19 +3,16 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, MapPin, Users, Award } from 'lucide-react';
+import { Search, Users, Award, MapPin } from 'lucide-react';
 import Link from 'next/link';
 
 export function HeroSection() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchLocation, setSearchLocation] = useState('');
 
   const handleSearch = () => {
-    if (searchQuery.trim() || searchLocation.trim()) {
+    if (searchQuery.trim()) {
       const params = new URLSearchParams();
-      if (searchQuery.trim()) params.append('q', searchQuery.trim());
-      if (searchLocation.trim())
-        params.append('location', searchLocation.trim());
+      params.append('q', searchQuery.trim());
       window.location.href = `/search?${params.toString()}`;
     }
   };
@@ -47,27 +44,16 @@ export function HeroSection() {
             전문 강사와 최고의 리조트를 찾아 완벽한 다이빙 경험을 만들어보세요
           </p>
 
-          {/* Enhanced Search Bar */}
+          {/* Enhanced Search Bar - Single Input */}
           <div className="bg-white rounded-2xl shadow-xl p-6 mb-12 max-w-2xl mx-auto">
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex gap-4">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <Input
                   type="text"
-                  placeholder="강사, 리조트, 또는 다이빙 코스를 검색하세요"
+                  placeholder="강사, 리조트, 지역명을 검색하세요 (예: 제주도 다이빙)"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  className="pl-10 h-12 text-lg border-0 focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div className="flex-1 relative">
-                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <Input
-                  type="text"
-                  placeholder="위치를 입력하세요 (예: 제주도, 부산)"
-                  value={searchLocation}
-                  onChange={(e) => setSearchLocation(e.target.value)}
                   onKeyPress={handleKeyPress}
                   className="pl-10 h-12 text-lg border-0 focus:ring-2 focus:ring-blue-500"
                 />
@@ -108,12 +94,12 @@ export function HeroSection() {
 
           {/* Call to Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/instructor">
+            <Link href="/search?type=instructor">
               <Button className="h-12 px-8 text-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:scale-105">
                 강사 찾기
               </Button>
             </Link>
-            <Link href="/resort">
+            <Link href="/search?type=resort">
               <Button className="h-12 px-8 text-lg bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 transition-all duration-200 transform hover:scale-105">
                 리조트 찾기
               </Button>
@@ -121,9 +107,9 @@ export function HeroSection() {
             <Link href="/auth/register">
               <Button
                 variant="outline"
-                className="h-12 px-8 text-lg border-2 hover:bg-gray-50 transition-all duration-200"
+                className="h-12 px-8 text-lg border-2 border-yellow-400 text-yellow-600 hover:bg-yellow-50 transition-all duration-200"
               >
-                강사/리조트 등록
+                카카오로 시작하기
               </Button>
             </Link>
           </div>

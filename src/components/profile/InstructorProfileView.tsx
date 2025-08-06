@@ -25,118 +25,11 @@ import {
 } from 'lucide-react';
 import { InstructorProfile } from '@/types';
 import { Timestamp } from 'firebase/firestore';
+import { getInstructorById } from '@/services/instructorService';
 
 interface InstructorProfileViewProps {
   instructorId: string;
 }
-
-// Mock data - in real app, this would come from Firebase
-const mockInstructorData: InstructorProfile = {
-  id: '1',
-  userId: 'user1',
-  name: 'Sarah Johnson',
-  bio: 'Passionate diving instructor with over 8 years of experience teaching divers of all levels. Specialized in underwater photography and marine conservation. I love sharing the beauty of the underwater world with my students.',
-  location: {
-    latitude: 37.7749,
-    longitude: -122.4194,
-  },
-  address: 'Monterey Bay, California, USA',
-  certifications: [
-    {
-      name: 'Open Water Scuba Instructor',
-      organization: 'PADI',
-      level: 'OWSI',
-      issueDate: Timestamp.fromDate(new Date('2016-03-15')),
-      certificateUrl: 'https://example.com/cert1.pdf',
-    },
-    {
-      name: 'Advanced Open Water Instructor',
-      organization: 'PADI',
-      level: 'AOWI',
-      issueDate: Timestamp.fromDate(new Date('2017-06-20')),
-    },
-    {
-      name: 'Rescue Diver Instructor',
-      organization: 'PADI',
-      level: 'RDI',
-      issueDate: Timestamp.fromDate(new Date('2018-09-10')),
-    },
-  ],
-  experience: 8,
-  specialties: [
-    'Underwater Photography',
-    'Night Diving',
-    'Deep Diving',
-    'Marine Conservation',
-  ],
-  languages: ['English', 'Spanish', 'French'],
-  services: [
-    {
-      name: 'Open Water Certification',
-      description:
-        'Complete PADI Open Water certification course including theory, pool sessions, and open water dives.',
-      price: 450,
-      currency: 'USD',
-      duration: '3-4 days',
-      maxParticipants: 4,
-    },
-    {
-      name: 'Advanced Open Water',
-      description:
-        'Take your diving to the next level with 5 adventure dives including deep and navigation.',
-      price: 350,
-      currency: 'USD',
-      duration: '2 days',
-      maxParticipants: 6,
-    },
-    {
-      name: 'Underwater Photography Course',
-      description:
-        'Learn the art of underwater photography with hands-on training and equipment guidance.',
-      price: 200,
-      currency: 'USD',
-      duration: '1 day',
-      maxParticipants: 3,
-    },
-  ],
-  gallery: [
-    {
-      url: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400',
-      type: 'image',
-      caption: 'Teaching underwater photography',
-      order: 0,
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400',
-      type: 'image',
-      caption: 'Open water certification dive',
-      order: 1,
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=400',
-      type: 'image',
-      caption: 'Marine life encounter',
-      order: 2,
-    },
-  ],
-  socialLinks: {
-    instagram: 'https://instagram.com/sarahdives',
-    facebook: 'https://facebook.com/sarahjohnsondiving',
-    youtube: 'https://youtube.com/c/sarahdivingadventures',
-    website: 'https://sarahjohnsondiving.com',
-    twitter: 'https://twitter.com/sarahdives',
-    tiktok: 'https://tiktok.com/@sarahdivingadventures',
-  },
-  stats: {
-    views: 1250,
-    saves: 89,
-    inquiries: 23,
-  },
-  isApproved: true,
-  isActive: true,
-  createdAt: Timestamp.fromDate(new Date('2020-01-15')),
-  updatedAt: Timestamp.fromDate(new Date('2024-01-15')),
-};
 
 export function InstructorProfileView({
   instructorId,
@@ -146,13 +39,17 @@ export function InstructorProfileView({
   const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
-    // Simulate API call
     const fetchInstructor = async () => {
       setLoading(true);
-      // In real app: const instructor = await getInstructorById(instructorId);
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate loading
-      setInstructor(mockInstructorData);
-      setLoading(false);
+      try {
+        const instructorData = await getInstructorById(instructorId);
+        setInstructor(instructorData);
+      } catch (error) {
+        console.error('Error fetching instructor:', error);
+        setInstructor(null);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchInstructor();
@@ -228,9 +125,10 @@ export function InstructorProfileView({
               {/* Profile Image */}
               <div className="flex-shrink-0">
                 <DefaultAvatar
-                  type="instructor"
                   name={instructor.name}
+                  type="instructor"
                   size="xl"
+                  imageUrl={instructor.profileImage} // 이미지가 없으면 fallback
                 />
               </div>
 
@@ -274,13 +172,6 @@ export function InstructorProfileView({
                     <Button variant="outline" size="sm" onClick={handleShare}>
                       <Share2 className="h-4 w-4" />
                     </Button>
-                    <Button
-                      onClick={handleContact}
-                      className="bg-blue-600 hover:bg-blue-700"
-                    >
-                      <MessageCircle className="h-5 w-5 mr-2" />
-                      연락하기
-                    </Button>
                   </div>
                 </div>
 
@@ -298,21 +189,6 @@ export function InstructorProfileView({
                     {instructor.specialties.map((specialty, index) => (
                       <Badge key={index} variant="secondary">
                         {specialty}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Languages */}
-                <div className="mt-4">
-                  <h3 className="text-sm font-medium text-gray-900 mb-2">
-                    사용 언어
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {instructor.languages.map((language, index) => (
-                      <Badge key={index} variant="outline">
-                        <Globe className="h-3 w-3 mr-1" />
-                        {language}
                       </Badge>
                     ))}
                   </div>
@@ -393,12 +269,6 @@ export function InstructorProfileView({
                     <p className="text-xs text-gray-500">
                       Issued: {cert.issueDate.toDate().toLocaleDateString()}
                     </p>
-                    {cert.certificateUrl && (
-                      <Button variant="link" size="sm" className="p-0 h-auto">
-                        <ExternalLink className="h-3 w-3 mr-1" />
-                        View Certificate
-                      </Button>
-                    )}
                   </div>
                 ))}
               </CardContent>

@@ -8,10 +8,16 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Upload, X, Image, Video, Move } from 'lucide-react';
 import { MediaFormData } from '@/lib/validations';
+import {
+  uploadGalleryImage,
+  validateImageFile,
+  resizeImage,
+} from '@/services/imageService';
 
 interface MediaUploadProps {
   media: MediaFormData[];
   onChange: (media: MediaFormData[]) => void;
+  instructorId: string; // Firebase Storage 경로용
   maxItems?: number;
   acceptedTypes?: string[];
   className?: string;
@@ -50,11 +56,36 @@ export function MediaUpload({
           continue;
         }
 
-        // Create object URL for preview (in real app, upload to Firebase Storage)
-        const url = URL.createObjectURL(file);
+        let finalUrl: string;
+
+        if (isImage) {
+          // Validate image file
+          const validation = validateImageFile(file);
+          if (!validation.isValid) {
+            alert(`Invalid file ${file.name}: ${validation.error}`);
+            continue;
+          }
+
+          try {
+            // Resize image before upload
+            const resizedFile = await resizeImage(file, 800, 600, 0.8);
+
+            // Upload to Firebase Storage
+            finalUrl = await uploadGalleryImage(resizedFile, instructorId);
+            console.log(`✅ Uploaded ${file.name} to Firebase Storage`);
+          } catch (uploadError) {
+            console.error('Failed to upload to Firebase Storage:', uploadError);
+            // Fallback to object URL for preview
+            finalUrl = URL.createObjectURL(file);
+            console.log(`⚠️ Using object URL as fallback for ${file.name}`);
+          }
+        } else {
+          // For videos, use object URL (Firebase Storage video upload can be added later)
+          finalUrl = URL.createObjectURL(file);
+        }
 
         newMediaItems.push({
-          url,
+          url: finalUrl,
           type: isVideo ? 'video' : 'image',
           caption: '',
           order: media.length + newMediaItems.length,

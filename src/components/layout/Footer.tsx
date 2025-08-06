@@ -74,27 +74,11 @@ export function Footer() {
                 다이빙 메이트
               </h2>
               <p className="text-gray-400 text-sm leading-relaxed">
-                전문 강사와 최고의 리조트를 연결하여 완벽한 다이빙 경험을
-                제공하는 대한민국 최고의 다이빙 플랫폼입니다.
+                Enjoy Your Sheer Diving
               </p>
             </div>
 
-            {/* Newsletter Signup */}
-            <div className="mb-6">
-              <h4 className="text-white font-medium mb-3">뉴스레터 구독</h4>
-              <div className="flex gap-2">
-                <Input
-                  type="email"
-                  placeholder="이메일 주소"
-                  className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-blue-500"
-                />
-                <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Social Media */}
+            {/* Social Media
             <div>
               <h4 className="text-white font-medium mb-3">소셜 미디어</h4>
               <div className="flex gap-3">
@@ -131,38 +115,38 @@ export function Footer() {
                   <Twitter className="h-5 w-5" />
                 </a>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Services */}
-          <FooterSection title="서비스">
+          {/* <FooterSection title="서비스">
             <FooterLink href="/instructor">강사 찾기</FooterLink>
             <FooterLink href="/resort">리조트 찾기</FooterLink>
             <FooterLink href="/search">통합 검색</FooterLink>
             <FooterLink href="/auth/register">강사 등록</FooterLink>
             <FooterLink href="/auth/register">리조트 등록</FooterLink>
             <FooterLink href="/profile">내 프로필</FooterLink>
-          </FooterSection>
+          </FooterSection> */}
 
           {/* Support */}
-          <FooterSection title="고객 지원">
+          {/* <FooterSection title="고객 지원">
             <FooterLink href="/help">도움말 센터</FooterLink>
             <FooterLink href="/faq">자주 묻는 질문</FooterLink>
             <FooterLink href="/safety">안전 가이드</FooterLink>
             <FooterLink href="/contact">문의하기</FooterLink>
             <FooterLink href="/feedback">피드백</FooterLink>
             <FooterLink href="/report">신고하기</FooterLink>
-          </FooterSection>
+          </FooterSection> */}
 
           {/* Company */}
-          <FooterSection title="회사 정보">
+          {/* <FooterSection title="회사 정보">
             <FooterLink href="/about">회사 소개</FooterLink>
             <FooterLink href="/team">팀 소개</FooterLink>
             <FooterLink href="/careers">채용 정보</FooterLink>
             <FooterLink href="/press">보도자료</FooterLink>
             <FooterLink href="/partners">파트너십</FooterLink>
             <FooterLink href="/contact">연락처</FooterLink>
-          </FooterSection>
+          </FooterSection> */}
         </div>
 
         {/* Contact Information */}
@@ -171,22 +155,22 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <Mail className="h-5 w-5 text-blue-400" />
               <div>
-                <p className="text-sm text-gray-400">이메일</p>
-                <p className="text-white">contact@divingmate.kr</p>
+                <p className="text-sm text-gray-400">E-mail</p>
+                <p className="text-white">diving.m8@gmail.com</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <Phone className="h-5 w-5 text-blue-400" />
               <div>
-                <p className="text-sm text-gray-400">전화번호</p>
-                <p className="text-white">02-1234-5678</p>
+                <p className="text-sm text-gray-400">Tel</p>
+                <p className="text-white">Sorry, not now</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <MapPin className="h-5 w-5 text-blue-400" />
               <div>
-                <p className="text-sm text-gray-400">주소</p>
-                <p className="text-white">서울특별시 강남구 테헤란로 123</p>
+                <p className="text-sm text-gray-400">Address</p>
+                <p className="text-white">Under water 18m</p>
               </div>
             </div>
           </div>
@@ -203,16 +187,15 @@ export function Footer() {
               </span>
               <span>•</span>
               <span>
-                Made with <Heart className="h-4 w-4 inline text-red-500" /> in
-                Korea
+                Made with <Heart className="h-4 w-4 inline text-red-500" />
               </span>
             </div>
 
             <div className="flex gap-6 text-sm">
               <FooterLink href="/terms">이용약관</FooterLink>
               <FooterLink href="/privacy">개인정보처리방침</FooterLink>
-              <FooterLink href="/cookies">쿠키 정책</FooterLink>
-              <FooterLink href="/sitemap">사이트맵</FooterLink>
+              {/* <FooterLink href="/cookies">쿠키 정책</FooterLink> */}
+              {/* <FooterLink href="/sitemap">사이트맵</FooterLink> */}
             </div>
           </div>
         </div>
