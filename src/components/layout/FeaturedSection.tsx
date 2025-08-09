@@ -66,29 +66,35 @@ const featuredResorts = [
 
 export function FeaturedSection() {
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
+    <section className="section-padding bg-gray-50">
+      <div className="section-container">
         {/* Featured Instructors */}
         <div className="mb-20">
           <div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                인기 강사
+                믿을 수 있는 전문 강사들
               </h2>
               <p className="text-gray-600">
-                검증된 전문 강사들과 함께 안전한 다이빙을 경험하세요
+                풍부한 경험과 검증된 실력으로 안전하고 즐거운 다이빙을
+                선사합니다
               </p>
             </div>
-            <Link href="/search?type=instructor">
-              <Button variant="outline">모든 강사 보기</Button>
-            </Link>
+            <div className="flex gap-3">
+              <Link href="/search?type=instructor">
+                <Button variant="outline">모든 강사 보기</Button>
+              </Link>
+              <Link href="/instructor/register">
+                <Button className="btn-primary">강사 등록하기</Button>
+              </Link>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {featuredInstructors.map((instructor) => (
               <Card
                 key={instructor.id}
-                className="group hover:shadow-xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 border-0 shadow-md py-0"
+                className="group card-standard py-0 hover:scale-[1.02] hover:-translate-y-1"
               >
                 <CardContent className="p-0">
                   <div className="relative h-48 bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-600 rounded-t-xl overflow-hidden">
@@ -155,11 +161,13 @@ export function FeaturedSection() {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <div className="text-lg font-semibold text-primary">
+                      <div className="text-lg font-semibold text-brand-primary">
                         {instructor.price}
                       </div>
                       <Link href={`/instructor/${instructor.id}`}>
-                        <Button size="sm">자세히 보기</Button>
+                        <Button size="sm" className="btn-primary">
+                          자세히 보기
+                        </Button>
                       </Link>
                     </div>
                   </div>
@@ -174,22 +182,27 @@ export function FeaturedSection() {
           <div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                추천 리조트
+                특별한 바다 속 휴식처
               </h2>
               <p className="text-gray-600">
-                최고의 시설과 서비스를 제공하는 다이빙 리조트
+                완벽한 시설과 최상의 서비스로 잊지 못할 다이빙 여행을 선사합니다
               </p>
             </div>
-            <Link href="/search?type=resort">
-              <Button variant="outline">모든 리조트 보기</Button>
-            </Link>
+            <div className="flex gap-3">
+              <Link href="/search?type=resort">
+                <Button variant="outline">모든 리조트 보기</Button>
+              </Link>
+              <Link href="/resort/register">
+                <Button className="btn-secondary">리조트 등록하기</Button>
+              </Link>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {featuredResorts.map((resort) => (
               <Card
                 key={resort.id}
-                className="group hover:shadow-xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 border-0 shadow-md py-0"
+                className="group card-standard py-0 hover:scale-[1.02] hover:-translate-y-1"
               >
                 <CardContent className="p-0">
                   <div className="relative h-48 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600 rounded-t-xl overflow-hidden">
@@ -257,11 +270,13 @@ export function FeaturedSection() {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <div className="text-lg font-semibold text-primary">
+                      <div className="text-lg font-semibold text-brand-secondary">
                         {resort.price}
                       </div>
                       <Link href={`/resort/${resort.id}`}>
-                        <Button size="sm">자세히 보기</Button>
+                        <Button size="sm" className="btn-secondary">
+                          자세히 보기
+                        </Button>
                       </Link>
                     </div>
                   </div>

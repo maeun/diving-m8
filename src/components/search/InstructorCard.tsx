@@ -28,7 +28,7 @@ export function InstructorCard({
 
   return (
     <Link href={`/instructor/${instructor.id}`}>
-      <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-blue-300">
+      <Card className="card-standard cursor-pointer hover:border-[var(--brand-primary)]/30">
         <CardContent className="p-6">
           <div className="flex gap-4">
             {/* Profile Image */}
@@ -71,8 +71,8 @@ export function InstructorCard({
               {/* Experience */}
               <div className="flex items-center gap-4 mb-3">
                 <div className="flex items-center gap-1 bg-blue-50 px-2 py-1 rounded-md">
-                  <Calendar className="h-4 w-4 text-blue-500" />
-                  <span className="text-sm text-blue-700 font-medium">
+                  <Calendar className="h-4 w-4 text-brand-primary" />
+                  <span className="text-sm text-brand-primary font-medium">
                     {instructor.experience}년 경력
                   </span>
                 </div>
@@ -104,7 +104,7 @@ export function InstructorCard({
                   <span>조회수 {instructor.stats.views.toLocaleString()}</span>
                 </div>
                 <div className="text-right">
-                  <span className="font-medium text-blue-600">
+                  <span className="font-medium text-brand-primary">
                     ${Math.min(...instructor.services.map((s) => s.price))}부터
                   </span>
                 </div>

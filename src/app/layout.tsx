@@ -5,6 +5,7 @@ import { generateMetadata } from '@/utils/metadata';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { ErrorBoundary } from '@/components/ui/error-boundary';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -28,13 +29,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>
-          <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-        </AuthProvider>
+        <ErrorBoundary>
+          <AuthProvider>
+            <div className="flex flex-col min-h-screen">
+              <Header />
+              <main className="flex-1">
+                <ErrorBoundary>{children}</ErrorBoundary>
+              </main>
+              <Footer />
+            </div>
+          </AuthProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

@@ -184,10 +184,30 @@ export default function RegisterPage() {
                 <h4 className="font-semibold text-gray-900 mb-2">
                   강사 또는 리조트 운영자이신가요?
                 </h4>
-                <p className="text-sm text-gray-600 mb-3">
-                  일반 회원으로 가입 후, 프로필 페이지에서 강사 인증 또는 리조트
-                  인증을 신청할 수 있습니다.
+                <p className="text-sm text-gray-600 mb-4">
+                  다이빙 메이트에서 전문가로 활동하고 싶으시다면 바로
+                  등록하세요!
                 </p>
+
+                <div className="flex flex-col sm:flex-row gap-3 mb-4">
+                  <Link href="/instructor/register" className="flex-1">
+                    <Button
+                      variant="outline"
+                      className="w-full h-10 text-sm border-blue-200 text-blue-700 hover:bg-blue-50 transition-all duration-[var(--transition-normal)]"
+                    >
+                      강사 등록하기
+                    </Button>
+                  </Link>
+                  <Link href="/resort/register" className="flex-1">
+                    <Button
+                      variant="outline"
+                      className="w-full h-10 text-sm border-green-200 text-green-700 hover:bg-green-50 transition-all duration-[var(--transition-normal)]"
+                    >
+                      리조트 등록하기
+                    </Button>
+                  </Link>
+                </div>
+
                 <div className="flex items-center justify-center space-x-4 text-xs text-gray-500">
                   <span>✓ 간편한 인증 절차</span>
                   <span>✓ 빠른 승인 처리</span>

@@ -230,25 +230,77 @@ export function RegisterForm({
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="userType">사용자 유형</Label>
-            <Select
-              onValueChange={(value) => setValue('userType', value as any)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="사용자 유형을 선택하세요" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="consumer">일반 사용자</SelectItem>
-                <SelectItem value="instructor">다이빙 강사</SelectItem>
-                <SelectItem value="resort">리조트/센터 운영자</SelectItem>
-              </SelectContent>
-            </Select>
-            {userType && (
-              <p className="text-sm text-gray-600">
-                {getUserTypeDescription(userType)}
-              </p>
-            )}
+          <div className="space-y-3">
+            <Label htmlFor="userType">가입 목적</Label>
+            <div className="grid grid-cols-1 gap-3">
+              {[
+                {
+                  value: 'consumer',
+                  title: '다이빙을 배우고 싶어요',
+                  description: '강사를 찾고 다이빙 교육을 받고 싶은 분',
+                  icon: '🤿',
+                },
+                {
+                  value: 'instructor',
+                  title: '다이빙 강사입니다',
+                  description: '학생들에게 다이빙을 가르치고 싶은 전문 강사',
+                  icon: '👨‍🏫',
+                },
+                {
+                  value: 'resort',
+                  title: '다이빙 리조트/센터를 운영합니다',
+                  description: '다이빙 시설을 운영하는 사업자',
+                  icon: '🏨',
+                },
+              ].map((option) => (
+                <div
+                  key={option.value}
+                  className={`relative border-2 rounded-lg p-4 cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 ${
+                    userType === option.value
+                      ? 'border-brand-primary bg-blue-50'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                  onClick={() => setValue('userType', option.value as any)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setValue('userType', option.value as any);
+                    }
+                  }}
+                  tabIndex={0}
+                  role="radio"
+                  aria-checked={userType === option.value}
+                  aria-describedby={`usertype-${option.value}-description`}
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl">{option.icon}</span>
+                    <div className="flex-1">
+                      <h3 className="font-medium text-gray-900 mb-1">
+                        {option.title}
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        {option.description}
+                      </p>
+                    </div>
+                    {userType === option.value && (
+                      <div className="w-5 h-5 bg-brand-primary rounded-full flex items-center justify-center">
+                        <svg
+                          className="w-3 h-3 text-white"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
             {errors.userType && (
               <p className="text-sm text-red-600">{errors.userType.message}</p>
             )}

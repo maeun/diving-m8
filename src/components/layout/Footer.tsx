@@ -28,7 +28,7 @@ function FooterLink({ href, children, external = false }: FooterLinkProps) {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-gray-400 hover:text-white transition-colors duration-200"
+        className="text-gray-400 hover:text-white transition-colors duration-[var(--transition-normal)]"
       >
         {children}
       </a>
@@ -38,7 +38,7 @@ function FooterLink({ href, children, external = false }: FooterLinkProps) {
   return (
     <Link
       href={href}
-      className="text-gray-400 hover:text-white transition-colors duration-200"
+      className="text-gray-400 hover:text-white transition-colors duration-[var(--transition-normal)]"
     >
       {children}
     </Link>
@@ -65,7 +65,7 @@ export function Footer() {
   return (
     <footer className="bg-gray-900 text-white">
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 py-16">
+      <div className="section-container py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-1">
@@ -74,7 +74,7 @@ export function Footer() {
                 다이빙 메이트
               </h2>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Enjoy Your Sheer Diving
+                Chasing Descent Upward, Diving Mate💙
               </p>
             </div>
 
@@ -153,21 +153,21 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-gray-800">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center gap-3">
-              <Mail className="h-5 w-5 text-blue-400" />
+              <Mail className="h-5 w-5 text-brand-primary" />
               <div>
                 <p className="text-sm text-gray-400">E-mail</p>
                 <p className="text-white">diving.m8@gmail.com</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Phone className="h-5 w-5 text-blue-400" />
+              <Phone className="h-5 w-5 text-brand-primary" />
               <div>
                 <p className="text-sm text-gray-400">Tel</p>
                 <p className="text-white">Sorry, not now</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <MapPin className="h-5 w-5 text-blue-400" />
+              <MapPin className="h-5 w-5 text-brand-primary" />
               <div>
                 <p className="text-sm text-gray-400">Address</p>
                 <p className="text-white">Under water 18m</p>
@@ -179,7 +179,7 @@ export function Footer() {
 
       {/* Bottom Footer */}
       <div className="border-t border-gray-800">
-        <div className="container mx-auto px-4 py-6">
+        <div className="section-container py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2 text-gray-400 text-sm">
               <span>

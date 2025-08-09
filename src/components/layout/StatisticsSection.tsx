@@ -59,7 +59,7 @@ function StatCard({ icon: Icon, number, label, color, delay }: StatCardProps) {
   }, [isVisible, number, delay]);
 
   return (
-    <Card className="text-center p-6 bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+    <Card className="text-center p-6 bg-white/80 backdrop-blur-sm border-0 card-standard">
       <CardContent className="p-0">
         <div
           className={`flex items-center justify-center w-16 h-16 ${color} rounded-full mx-auto mb-4`}
@@ -84,34 +84,34 @@ export function StatisticsSection() {
       icon: Users,
       number: '500',
       label: '전문 강사',
-      color: 'bg-blue-500',
+      color: 'bg-brand-primary',
       delay: 0,
     },
     {
       icon: Award,
       number: '200',
       label: '리조트',
-      color: 'bg-green-500',
+      color: 'bg-brand-secondary',
       delay: 200,
     },
     {
       icon: Heart,
       number: '10000',
       label: '함께하는 다이버들',
-      color: 'bg-red-500',
+      color: 'bg-[var(--error)]',
       delay: 400,
     },
     {
       icon: MapPin,
       number: '50',
       label: '다이빙 지역',
-      color: 'bg-purple-500',
+      color: 'bg-[var(--brand-accent)]',
       delay: 600,
     },
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
+    <section className="section-padding gradient-primary relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-full h-full">
@@ -122,16 +122,16 @@ export function StatisticsSection() {
         </div>
       </div>
 
-      <div className="relative container mx-auto px-4">
+      <div className="relative section-container">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-2 mb-4">
             <TrendingUp className="h-8 w-8 text-white" />
             <h2 className="text-4xl font-bold text-white">
-              다이빙 메이트 통계
+              함께하는 다이빙 커뮤니티
             </h2>
           </div>
           <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-            전국의 다이빙 애호가들이 다이빙 메이트와 함께하고 있습니다
+            전국의 다이빙 애호가들이 선택한 믿을 수 있는 파트너
           </p>
         </div>
 

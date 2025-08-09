@@ -45,7 +45,7 @@ export function ResortCard({
 
   return (
     <Link href={`/resort/${resort.id}`}>
-      <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-green-300">
+      <Card className="card-standard cursor-pointer hover:border-[var(--brand-secondary)]/30">
         <CardContent className="p-6">
           <div className="flex gap-4">
             {/* Profile Image */}
@@ -115,7 +115,7 @@ export function ResortCard({
                   <span>조회수 {resort.stats.views.toLocaleString()}</span>
                 </div>
                 <div className="text-right">
-                  <span className="font-medium text-green-600">
+                  <span className="font-medium text-brand-secondary">
                     ${Math.min(...resort.packages.map((p) => p.price))}부터
                   </span>
                 </div>

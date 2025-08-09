@@ -9,6 +9,7 @@ import { SearchResults } from '@/components/search/SearchResults';
 import { Button } from '@/components/ui/button';
 import { InstructorProfile, ResortProfile } from '@/types';
 import { Timestamp } from 'firebase/firestore';
+import { Search, ChevronDown } from 'lucide-react';
 
 // Import mock data (in real app, this would be a shared service)
 const mockInstructors: InstructorProfile[] = [
@@ -103,6 +104,7 @@ export default function SearchPage() {
   const [sortBy, setSortBy] = useState('views');
   const [savedItems, setSavedItems] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   // Simulate loading
   useEffect(() => {
@@ -242,9 +244,30 @@ export default function SearchPage() {
           </div>
         </div>
 
+        {/* Mobile Filter Toggle */}
+        <div className="lg:hidden mb-6">
+          <Button
+            variant="outline"
+            onClick={() => setShowMobileFilters(!showMobileFilters)}
+            className="w-full justify-between"
+          >
+            <span className="flex items-center gap-2">
+              <Search className="h-4 w-4" />
+              필터{' '}
+              {filters.specialties.length > 0 &&
+                `(${filters.specialties.length})`}
+            </span>
+            <ChevronDown
+              className={`h-4 w-4 transition-transform ${
+                showMobileFilters ? 'rotate-180' : ''
+              }`}
+            />
+          </Button>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Filters Sidebar */}
-          <div className="lg:col-span-1">
+          {/* Filters Sidebar - Desktop */}
+          <div className="hidden lg:block lg:col-span-1">
             <SearchFilters
               filters={filters}
               onFiltersChange={setFilters}
@@ -252,8 +275,19 @@ export default function SearchPage() {
             />
           </div>
 
+          {/* Mobile Filters - Collapsible */}
+          {showMobileFilters && (
+            <div className="lg:hidden col-span-1 mb-6">
+              <SearchFilters
+                filters={filters}
+                onFiltersChange={setFilters}
+                type={searchType}
+              />
+            </div>
+          )}
+
           {/* Results */}
-          <div className="lg:col-span-3">
+          <div className="col-span-1 lg:col-span-3">
             <SearchResults
               type={searchType}
               results={filteredResults}
@@ -264,6 +298,8 @@ export default function SearchPage() {
               onSortChange={setSortBy}
               onSave={handleSave}
               savedItems={savedItems}
+              filters={filters}
+              onFiltersChange={setFilters}
             />
           </div>
         </div>

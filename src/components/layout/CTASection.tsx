@@ -32,25 +32,30 @@ export function CTASection() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50 relative overflow-hidden">
+    <section className="section-padding bg-gradient-to-br from-gray-50 to-blue-50 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-10 w-32 h-32 bg-blue-400 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-40 h-40 bg-green-400 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
+      <div className="relative section-container">
+        <div className="content-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div className="space-y-8">
               <div>
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                  지금 바로 시작하세요
+                  당신만의 다이빙 스토리를
+                  <br />
+                  <span className="text-brand-primary">시작해보세요</span>
                 </h2>
                 <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                  다이빙 메이트와 함께 완벽한 다이빙 경험을 만들어보세요. 전문
-                  강사와 최고의 리조트가 여러분을 기다리고 있습니다.
+                  검증된 전문가들과 함께하는 안전하고 특별한 바다 속 여행
+                  <br />
+                  <span className="text-lg text-gray-500">
+                    지금 바로 완벽한 다이빙 파트너를 찾아보세요
+                  </span>
                 </p>
               </div>
 
@@ -76,15 +81,20 @@ export function CTASection() {
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Link href="/auth/register">
-                  <Button className="h-12 px-8 text-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:scale-105">
+                  <Button className="h-12 px-8 text-lg btn-primary">
                     무료로 시작하기
                     <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+                <Link href="/instructor/register">
+                  <Button className="h-12 px-8 text-lg btn-secondary">
+                    강사 등록하기
                   </Button>
                 </Link>
                 <Link href="/search">
                   <Button
                     variant="outline"
-                    className="h-12 px-8 text-lg border-2 hover:bg-gray-50 transition-all duration-200"
+                    className="h-12 px-8 text-lg border-2 hover:bg-gray-50 transition-all duration-[var(--transition-normal)]"
                   >
                     둘러보기
                   </Button>
@@ -95,10 +105,10 @@ export function CTASection() {
             {/* Right Content - Stats Cards */}
             <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <Card className="bg-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <Card className="card-standard bg-white hover:scale-105">
                   <CardContent className="p-6 text-center">
                     <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mx-auto mb-4">
-                      <Users className="h-6 w-6 text-blue-600" />
+                      <Users className="h-6 w-6 text-brand-primary" />
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">
                       500+
@@ -110,10 +120,10 @@ export function CTASection() {
                   </CardContent>
                 </Card>
 
-                <Card className="bg-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <Card className="card-standard bg-white hover:scale-105">
                   <CardContent className="p-6 text-center">
-                    <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mx-auto mb-4">
-                      <Award className="h-6 w-6 text-green-600" />
+                    <div className="flex items-center justify-center w-12 h-12 bg-emerald-100 rounded-full mx-auto mb-4">
+                      <Award className="h-6 w-6 text-brand-secondary" />
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">
                       200+
@@ -125,10 +135,10 @@ export function CTASection() {
                   </CardContent>
                 </Card>
 
-                <Card className="bg-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <Card className="card-standard bg-white hover:scale-105">
                   <CardContent className="p-6 text-center">
-                    <div className="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-full mx-auto mb-4">
-                      <MapPin className="h-6 w-6 text-purple-600" />
+                    <div className="flex items-center justify-center w-12 h-12 bg-amber-100 rounded-full mx-auto mb-4">
+                      <MapPin className="h-6 w-6 text-[var(--brand-accent)]" />
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">
                       50+
@@ -140,10 +150,10 @@ export function CTASection() {
                   </CardContent>
                 </Card>
 
-                <Card className="bg-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <Card className="card-standard bg-white hover:scale-105">
                   <CardContent className="p-6 text-center">
                     <div className="flex items-center justify-center w-12 h-12 bg-red-100 rounded-full mx-auto mb-4">
-                      <CheckCircle className="h-6 w-6 text-red-600" />
+                      <CheckCircle className="h-6 w-6 text-[var(--error)]" />
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">
                       95%
@@ -155,7 +165,7 @@ export function CTASection() {
               </div>
 
               {/* Testimonial Preview */}
-              <Card className="bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-xl">
+              <Card className="gradient-primary text-white card-standard">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">

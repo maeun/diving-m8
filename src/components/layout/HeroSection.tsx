@@ -17,7 +17,7 @@ export function HeroSection() {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSearch();
     }
@@ -32,20 +32,26 @@ export function HeroSection() {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-blue-300 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative container mx-auto px-4 py-20">
-        <div className="text-center max-w-4xl mx-auto">
+      <div className="relative section-container section-padding">
+        <div className="text-center content-container">
           {/* Main Headline */}
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            다이빙의 새로운 시작
+            바다 속 모험이
+            <br />
+            <span className="text-brand-primary">여기서 시작됩니다</span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-            전문 강사와 최고의 리조트를 찾아 완벽한 다이빙 경험을 만들어보세요
+            검증된 전문 강사와 최고의 다이빙 리조트를 만나보세요
+            <br />
+            <span className="text-lg md:text-xl text-gray-500">
+              안전하고 즐거운 다이빙 경험을 약속드립니다
+            </span>
           </p>
 
           {/* Enhanced Search Bar - Single Input */}
-          <div className="bg-white rounded-2xl shadow-xl p-6 mb-12 max-w-2xl mx-auto">
+          <div className="card-standard p-6 mb-12 max-w-2xl mx-auto">
             <div className="flex gap-4">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -54,13 +60,13 @@ export function HeroSection() {
                   placeholder="강사, 리조트, 지역명을 검색하세요 (예: 제주도 다이빙)"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  className="pl-10 h-12 text-lg border-0 focus:ring-2 focus:ring-blue-500"
+                  onKeyDown={handleKeyDown}
+                  className="pl-10 h-12 text-lg border-0 focus:ring-2 focus:ring-[var(--brand-primary)]"
                 />
               </div>
               <Button
                 onClick={handleSearch}
-                className="h-12 px-8 text-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:scale-105"
+                className="h-12 px-8 text-lg btn-primary"
               >
                 검색하기
               </Button>
@@ -71,21 +77,21 @@ export function HeroSection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             <div className="text-center">
               <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mx-auto mb-4">
-                <Users className="h-8 w-8 text-blue-600" />
+                <Users className="h-8 w-8 text-brand-primary" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">500+</h3>
               <p className="text-gray-600">전문 강사</p>
             </div>
             <div className="text-center">
-              <div className="flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mx-auto mb-4">
-                <Award className="h-8 w-8 text-green-600" />
+              <div className="flex items-center justify-center w-16 h-16 bg-emerald-100 rounded-full mx-auto mb-4">
+                <Award className="h-8 w-8 text-brand-secondary" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">200+</h3>
               <p className="text-gray-600">리조트</p>
             </div>
             <div className="text-center">
-              <div className="flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mx-auto mb-4">
-                <MapPin className="h-8 w-8 text-purple-600" />
+              <div className="flex items-center justify-center w-16 h-16 bg-amber-100 rounded-full mx-auto mb-4">
+                <MapPin className="h-8 w-8 text-[var(--brand-accent)]" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">50+</h3>
               <p className="text-gray-600">다이빙 지역</p>
@@ -95,21 +101,21 @@ export function HeroSection() {
           {/* Call to Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/search?type=instructor">
-              <Button className="h-12 px-8 text-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:scale-105">
+              <Button className="h-12 px-8 text-lg btn-primary">
                 강사 찾기
               </Button>
             </Link>
             <Link href="/search?type=resort">
-              <Button className="h-12 px-8 text-lg bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 transition-all duration-200 transform hover:scale-105">
+              <Button className="h-12 px-8 text-lg btn-secondary">
                 리조트 찾기
               </Button>
             </Link>
-            <Link href="/auth/register">
+            <Link href="/instructor/register">
               <Button
                 variant="outline"
-                className="h-12 px-8 text-lg border-2 border-yellow-400 text-yellow-600 hover:bg-yellow-50 transition-all duration-200"
+                className="h-12 px-8 text-lg border-2 border-[var(--brand-accent)] text-[var(--brand-accent)] hover:bg-amber-50 transition-all duration-[var(--transition-normal)]"
               >
-                카카오로 시작하기
+                강사 등록하기
               </Button>
             </Link>
           </div>

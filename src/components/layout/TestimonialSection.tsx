@@ -87,15 +87,18 @@ export function TestimonialSection() {
   };
 
   return (
-    <section className="py-16 bg-white overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section className="section-padding bg-white overflow-hidden">
+      <div className="section-container">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            다이버들의 생생한 후기
+            바다 속에서 만난 특별한 순간들
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            다이빙 메이트를 통해 완벽한 다이빙 경험을 만든 분들의 이야기를
-            들어보세요
+            다이빙 메이트와 함께한 다이버들의 진솔한 이야기를 들어보세요
+            <br />
+            <span className="text-sm text-gray-500">
+              실제 경험담을 바탕으로 한 생생한 후기입니다
+            </span>
           </p>
         </div>
 
@@ -118,13 +121,11 @@ export function TestimonialSection() {
                   }) scale(${index === 1 ? '1' : '0.9'})`,
                 }}
               >
-                <Card className="w-150 mx-4 shadow-lg h-[300px]">
-                  {' '}
-                  {/* 예: 높이 300px */}
+                <Card className="w-150 mx-4 card-standard h-[300px]">
                   <CardContent className="p-6 h-full flex flex-col justify-between">
                     <div>
                       <div className="flex items-center mb-4">
-                        <Quote className="h-8 w-8 text-primary/20 mr-3" />
+                        <Quote className="h-8 w-8 text-brand-primary/20 mr-3" />
                       </div>
 
                       <p className="text-gray-700 mb-4 leading-relaxed line-clamp-4">
@@ -143,7 +144,7 @@ export function TestimonialSection() {
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm font-medium text-primary">
+                          <p className="text-sm font-medium text-brand-primary">
                             {testimonial.course}
                           </p>
                           <p className="text-xs text-gray-400">
@@ -162,10 +163,10 @@ export function TestimonialSection() {
         {/* Mobile: 1 card */}
         <div className="sm:hidden">
           <div className="flex justify-center">
-            <Card className="w-full max-w-sm shadow-lg">
+            <Card className="w-full max-w-sm card-standard">
               <CardContent className="p-6">
                 <div className="flex items-center mb-4">
-                  <Quote className="h-8 w-8 text-primary/20 mr-3" />
+                  <Quote className="h-8 w-8 text-brand-primary/20 mr-3" />
                 </div>
 
                 <p className="text-gray-700 mb-4 leading-relaxed">
@@ -183,7 +184,7 @@ export function TestimonialSection() {
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-medium text-primary">
+                      <p className="text-sm font-medium text-brand-primary">
                         {testimonials[currentIndex].course}
                       </p>
                       <p className="text-xs text-gray-400">
@@ -203,8 +204,8 @@ export function TestimonialSection() {
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === currentIndex ? 'bg-primary w-8' : 'bg-gray-300'
+              className={`w-2 h-2 rounded-full transition-all duration-[var(--transition-normal)] ${
+                index === currentIndex ? 'bg-brand-primary w-8' : 'bg-gray-300'
               }`}
             />
           ))}

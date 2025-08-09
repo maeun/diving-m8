@@ -1,12 +1,14 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { InstructorCard } from './InstructorCard';
 import { ResortCard } from './ResortCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Grid3X3, List, SortAsc, Search } from 'lucide-react';
 import { InstructorProfile, ResortProfile } from '@/types';
+import { SearchFiltersState } from './SearchFilters';
 
 interface SearchResultsProps {
   type: 'instructor' | 'resort';
@@ -18,6 +20,8 @@ interface SearchResultsProps {
   onSortChange: (sort: string) => void;
   onSave: (id: string) => void;
   savedItems: string[];
+  filters?: SearchFiltersState;
+  onFiltersChange?: (filters: SearchFiltersState) => void;
 }
 
 export function SearchResults({
@@ -30,6 +34,8 @@ export function SearchResults({
   onSortChange,
   onSave,
   savedItems,
+  filters,
+  onFiltersChange,
 }: SearchResultsProps) {
   const sortOptions = [
     { value: 'views', label: '조회수순' },
@@ -43,7 +49,7 @@ export function SearchResults({
     return (
       <div className="space-y-4">
         {Array.from({ length: 6 }).map((_, i) => (
-          <Card key={i} className="animate-pulse border-blue-100">
+          <Card key={i} className="animate-pulse border-blue-100 card-standard">
             <CardContent className="p-6">
               <div className="flex gap-4">
                 <div className="w-24 h-24 bg-blue-100 rounded-lg"></div>
@@ -63,15 +69,92 @@ export function SearchResults({
 
   if (results.length === 0) {
     return (
-      <Card>
+      <Card className="card-standard">
         <CardContent className="text-center py-12">
-          <Search className="h-12 w-12 text-blue-300 mx-auto mb-4" />
+          <Search className="h-12 w-12 text-brand-primary/50 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-gray-900 mb-2">
             {type === 'instructor' ? '강사를' : '리조트를'} 찾을 수 없습니다
           </h3>
-          <p className="text-gray-600">
+          <p className="text-gray-600 mb-6">
             검색 조건이나 필터를 조정해서 원하는 결과를 찾아보세요.
           </p>
+
+          {/* Suggestions */}
+          <div className="space-y-4">
+            <div className="text-sm text-gray-500 mb-3">
+              다음을 시도해보세요:
+            </div>
+            <div className="flex flex-wrap justify-center gap-2 mb-6">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  onFiltersChange({
+                    query: '',
+                    location: '',
+                    specialties: [],
+                    priceRange: [0, 5000],
+                  })
+                }
+              >
+                모든 필터 초기화
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  onFiltersChange({
+                    ...filters,
+                    priceRange: [0, 5000],
+                  })
+                }
+              >
+                가격 범위 확대
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  onFiltersChange({
+                    ...filters,
+                    location: '',
+                  })
+                }
+              >
+                지역 제한 해제
+              </Button>
+            </div>
+
+            {/* Alternative Actions */}
+            <div className="border-t pt-6">
+              <p className="text-sm text-gray-600 mb-4">
+                원하는 {type === 'instructor' ? '강사' : '리조트'}를 찾지
+                못하셨나요?
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link
+                  href={
+                    type === 'instructor'
+                      ? '/instructor/register'
+                      : '/resort/register'
+                  }
+                >
+                  <Button
+                    className={
+                      type === 'instructor' ? 'btn-primary' : 'btn-secondary'
+                    }
+                  >
+                    {type === 'instructor'
+                      ? '강사로 등록하기'
+                      : '리조트 등록하기'}
+                  </Button>
+                </Link>
+                <Link href="/contact">
+                  <Button variant="outline">맞춤 추천 요청하기</Button>
+                </Link>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
     );
@@ -86,8 +169,8 @@ export function SearchResults({
             <span
               className={`px-2 py-1 rounded-full text-sm ${
                 type === 'instructor'
-                  ? 'bg-blue-100 text-blue-800'
-                  : 'bg-green-100 text-green-800'
+                  ? 'bg-blue-100 text-brand-primary'
+                  : 'bg-emerald-100 text-brand-secondary'
               }`}
             >
               {results.length}
@@ -101,7 +184,7 @@ export function SearchResults({
           <select
             value={sortBy}
             onChange={(e) => onSortChange(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+            className="px-3 py-2 border border-gray-300 rounded-[var(--radius-input)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)] bg-white transition-all duration-[var(--transition-normal)]"
           >
             {sortOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -111,12 +194,16 @@ export function SearchResults({
           </select>
 
           {/* View Mode Toggle */}
-          <div className="flex border border-blue-200 rounded-md">
+          <div className="flex border border-gray-200 rounded-[var(--radius-button)]">
             <Button
               variant={viewMode === 'grid' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => onViewModeChange('grid')}
-              className="rounded-r-none bg-blue-50 text-blue-700 hover:bg-blue-100 hover:text-blue-800 border-blue-200"
+              className={`rounded-r-none transition-all duration-[var(--transition-normal)] ${
+                viewMode === 'grid'
+                  ? 'bg-brand-primary text-white hover:bg-[var(--brand-primary-hover)]'
+                  : 'bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-brand-primary'
+              }`}
             >
               <Grid3X3 className="h-4 w-4" />
             </Button>
@@ -124,7 +211,11 @@ export function SearchResults({
               variant={viewMode === 'list' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => onViewModeChange('list')}
-              className="rounded-l-none bg-blue-50 text-blue-700 hover:bg-blue-100 hover:text-blue-800 border-blue-200"
+              className={`rounded-l-none transition-all duration-[var(--transition-normal)] ${
+                viewMode === 'list'
+                  ? 'bg-brand-primary text-white hover:bg-[var(--brand-primary-hover)]'
+                  : 'bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-brand-primary'
+              }`}
             >
               <List className="h-4 w-4" />
             </Button>

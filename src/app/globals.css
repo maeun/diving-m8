@@ -76,6 +76,56 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Diving Mate Design Tokens */
+  --brand-primary: #2563eb; /* blue-600 */
+  --brand-primary-hover: #1d4ed8; /* blue-700 */
+  --brand-secondary: #059669; /* emerald-600 */
+  --brand-secondary-hover: #047857; /* emerald-700 */
+  --brand-accent: #f59e0b; /* amber-500 */
+  --brand-accent-hover: #d97706; /* amber-600 */
+
+  /* Semantic Colors */
+  --success: #10b981; /* emerald-500 */
+  --warning: #f59e0b; /* amber-500 */
+  --error: #ef4444; /* red-500 */
+  --info: #3b82f6; /* blue-500 */
+
+  /* Layout */
+  --section-padding-y: 5rem; /* py-20 */
+  --section-padding-x: 1rem; /* px-4 */
+  --container-max-width: 80rem; /* max-w-7xl - 1280px */
+  --content-max-width: 64rem; /* max-w-4xl - 1024px */
+
+  /* Shadows */
+  --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-card-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-button: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-button-hover: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+  /* Border Radius */
+  --radius-button: 0.5rem; /* rounded-lg */
+  --radius-card: 0.75rem; /* rounded-xl */
+  --radius-input: 0.5rem; /* rounded-lg */
+
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 200ms ease-in-out;
+  --transition-slow: 300ms ease-in-out;
+
+  /* Typography */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
 }
 
 .dark {
@@ -194,5 +244,77 @@
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  /* Brand Design System Utilities */
+  .btn-primary {
+    @apply bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white;
+    @apply shadow-[var(--shadow-button)] hover:shadow-[var(--shadow-button-hover)];
+    @apply rounded-[var(--radius-button)] transition-all duration-[var(--transition-normal)];
+    @apply transform hover:scale-105 active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply bg-[var(--brand-secondary)] hover:bg-[var(--brand-secondary-hover)] text-white;
+    @apply shadow-[var(--shadow-button)] hover:shadow-[var(--shadow-button-hover)];
+    @apply rounded-[var(--radius-button)] transition-all duration-[var(--transition-normal)];
+    @apply transform hover:scale-105 active:scale-95;
+  }
+
+  .btn-accent {
+    @apply bg-[var(--brand-accent)] hover:bg-[var(--brand-accent-hover)] text-gray-900;
+    @apply shadow-[var(--shadow-button)] hover:shadow-[var(--shadow-button-hover)];
+    @apply rounded-[var(--radius-button)] transition-all duration-[var(--transition-normal)];
+    @apply transform hover:scale-105 active:scale-95;
+  }
+
+  .card-standard {
+    @apply bg-white rounded-[var(--radius-card)] shadow-[var(--shadow-card)];
+    @apply hover:shadow-[var(--shadow-card-hover)] transition-all duration-[var(--transition-normal)];
+    @apply border border-gray-100;
+  }
+
+  .section-container {
+    @apply max-w-[var(--container-max-width)] mx-auto px-[var(--section-padding-x)];
+  }
+
+  .section-padding {
+    @apply py-[var(--section-padding-y)];
+  }
+
+  .content-container {
+    @apply max-w-[var(--content-max-width)] mx-auto;
+  }
+
+  .gradient-primary {
+    background: linear-gradient(
+      135deg,
+      var(--brand-primary) 0%,
+      var(--brand-primary-hover) 100%
+    );
+  }
+
+  .gradient-secondary {
+    background: linear-gradient(
+      135deg,
+      var(--brand-secondary) 0%,
+      var(--brand-secondary-hover) 100%
+    );
+  }
+
+  .text-brand-primary {
+    color: var(--brand-primary);
+  }
+
+  .text-brand-secondary {
+    color: var(--brand-secondary);
+  }
+
+  .bg-brand-primary {
+    background-color: var(--brand-primary);
+  }
+
+  .bg-brand-secondary {
+    background-color: var(--brand-secondary);
   }
 }

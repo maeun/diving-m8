@@ -80,8 +80,8 @@ export function InstructorProfileView({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-6xl mx-auto px-4 space-y-6">
+      <div className="min-h-screen bg-gray-50 section-padding">
+        <div className="section-container space-y-6">
           <CardSkeleton />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-6">
@@ -101,7 +101,7 @@ export function InstructorProfileView({
   if (!instructor) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="max-w-md mx-auto">
+        <Card className="card-standard max-w-md mx-auto">
           <CardContent className="text-center py-8">
             <h2 className="text-xl font-semibold mb-2">
               강사를 찾을 수 없습니다
@@ -116,10 +116,10 @@ export function InstructorProfileView({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4 space-y-6">
+    <div className="min-h-screen bg-gray-50 section-padding">
+      <div className="section-container space-y-6">
         {/* Header Section */}
-        <Card>
+        <Card className="card-standard">
           <CardContent className="p-6">
             <div className="flex flex-col md:flex-row gap-6">
               {/* Profile Image */}
@@ -147,8 +147,8 @@ export function InstructorProfileView({
                     </div>
                     <div className="flex items-center gap-4 mt-3">
                       <div className="flex items-center gap-1 bg-blue-50 px-2 py-1 rounded-md">
-                        <Calendar className="h-4 w-4 text-blue-500" />
-                        <span className="text-blue-700 font-medium">
+                        <Calendar className="h-4 w-4 text-brand-primary" />
+                        <span className="text-brand-primary font-medium">
                           {instructor.experience}년 경력
                         </span>
                       </div>
@@ -202,17 +202,20 @@ export function InstructorProfileView({
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Services */}
-            <Card>
+            <Card className="card-standard">
               <CardHeader>
                 <CardTitle>서비스 & 코스</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {instructor.services.map((service, index) => (
-                  <div key={index} className="border rounded-lg p-4">
+                  <div
+                    key={index}
+                    className="border rounded-[var(--radius-card)] p-4"
+                  >
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-semibold text-lg">{service.name}</h3>
                       <div className="text-right">
-                        <div className="text-xl font-bold text-blue-600">
+                        <div className="text-xl font-bold text-brand-primary">
                           ${service.price} {service.currency}
                         </div>
                         <div className="text-sm text-gray-500">
@@ -227,7 +230,7 @@ export function InstructorProfileView({
             </Card>
 
             {/* Gallery */}
-            <Card>
+            <Card className="card-standard">
               <CardHeader>
                 <CardTitle>갤러리</CardTitle>
               </CardHeader>
@@ -235,11 +238,11 @@ export function InstructorProfileView({
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {instructor.gallery.map((media, index) => (
                     <div key={index} className="relative group">
-                      <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+                      <div className="aspect-square bg-gray-100 rounded-[var(--radius-card)] overflow-hidden">
                         <img
                           src={media.url}
                           alt={media.caption || `Gallery image ${index + 1}`}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[var(--transition-normal)]"
                         />
                       </div>
                     </div>
@@ -252,16 +255,19 @@ export function InstructorProfileView({
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Certifications */}
-            <Card>
+            <Card className="card-standard">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Award className="h-5 w-5" />
+                  <Award className="h-5 w-5 text-brand-primary" />
                   자격증
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {instructor.certifications.map((cert, index) => (
-                  <div key={index} className="border-l-4 border-blue-500 pl-4">
+                  <div
+                    key={index}
+                    className="border-l-4 border-[var(--brand-primary)] pl-4"
+                  >
                     <h3 className="font-semibold">{cert.name}</h3>
                     <p className="text-sm text-gray-600">
                       {cert.organization} - {cert.level}
@@ -275,7 +281,7 @@ export function InstructorProfileView({
             </Card>
 
             {/* Social Links */}
-            <Card>
+            <Card className="card-standard">
               <CardHeader>
                 <CardTitle>소셜 미디어</CardTitle>
               </CardHeader>
@@ -285,7 +291,7 @@ export function InstructorProfileView({
                     href={instructor.socialLinks.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-[var(--transition-normal)]"
                   >
                     <Globe className="h-5 w-5 text-gray-600" />
                     <span>Website</span>
@@ -297,7 +303,7 @@ export function InstructorProfileView({
                     href={instructor.socialLinks.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-[var(--transition-normal)]"
                   >
                     <Instagram className="h-5 w-5 text-pink-600" />
                     <span>Instagram</span>
@@ -309,9 +315,9 @@ export function InstructorProfileView({
                     href={instructor.socialLinks.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-[var(--transition-normal)]"
                   >
-                    <Facebook className="h-5 w-5 text-blue-600" />
+                    <Facebook className="h-5 w-5 text-brand-primary" />
                     <span>Facebook</span>
                     <ExternalLink className="h-4 w-4 ml-auto text-gray-400" />
                   </a>
@@ -321,7 +327,7 @@ export function InstructorProfileView({
                     href={instructor.socialLinks.youtube}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-[var(--transition-normal)]"
                   >
                     <Youtube className="h-5 w-5 text-red-600" />
                     <span>YouTube</span>
@@ -333,9 +339,9 @@ export function InstructorProfileView({
                     href={instructor.socialLinks.twitter}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-[var(--transition-normal)]"
                   >
-                    <Twitter className="h-5 w-5 text-blue-500" />
+                    <Twitter className="h-5 w-5 text-brand-primary" />
                     <span>X (Twitter)</span>
                     <ExternalLink className="h-4 w-4 ml-auto text-gray-400" />
                   </a>
@@ -345,7 +351,7 @@ export function InstructorProfileView({
                     href={instructor.socialLinks.tiktok}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-[var(--transition-normal)]"
                   >
                     <Music className="h-5 w-5 text-black" />
                     <span>TikTok</span>
@@ -356,7 +362,7 @@ export function InstructorProfileView({
             </Card>
 
             {/* Stats */}
-            <Card>
+            <Card className="card-standard">
               <CardHeader>
                 <CardTitle>프로필 통계</CardTitle>
               </CardHeader>
