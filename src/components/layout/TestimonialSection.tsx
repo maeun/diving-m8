@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Quote } from 'lucide-react';
+import { useSwipeGesture } from '@/hooks/useSwipeGesture';
 
 const testimonials = [
   {
@@ -56,6 +57,22 @@ export function TestimonialSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isClient, setIsClient] = useState(false);
 
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
+    );
+  };
+
+  // Swipe gesture for mobile
+  const swipeRef = useSwipeGesture({
+    onSwipeLeft: nextSlide,
+    onSwipeRight: prevSlide,
+  });
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -63,10 +80,7 @@ export function TestimonialSection() {
   useEffect(() => {
     if (!isClient) return;
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-    }, 4000);
-
+    const interval = setInterval(nextSlide, 4000);
     return () => clearInterval(interval);
   }, [isClient]);
 
@@ -87,16 +101,40 @@ export function TestimonialSection() {
   };
 
   return (
-    <section className="section-padding bg-white overflow-hidden">
-      <div className="section-container">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+    <section className="section-padding gradient-ocean-light bubble-container relative overflow-hidden">
+      {/* Animated Bubbles */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div
+          className="bubble w-5 h-5 animate-bubble"
+          style={{ animationDelay: '0s' }}
+        ></div>
+        <div
+          className="bubble w-8 h-8 animate-bubble"
+          style={{ animationDelay: '3s' }}
+        ></div>
+        <div
+          className="bubble w-4 h-4 animate-bubble"
+          style={{ animationDelay: '6s' }}
+        ></div>
+        <div
+          className="bubble w-6 h-6 animate-bubble"
+          style={{ animationDelay: '2s' }}
+        ></div>
+        <div
+          className="bubble w-7 h-7 animate-bubble"
+          style={{ animationDelay: '4s' }}
+        ></div>
+      </div>
+
+      <div className="section-container relative">
+        <div className="text-center mb-12 animate-fade-in-up">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
             바다 속에서 만난 특별한 순간들
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
             다이빙 메이트와 함께한 다이버들의 진솔한 이야기를 들어보세요
             <br />
-            <span className="text-sm text-gray-500">
+            <span className="text-xs sm:text-sm text-gray-500">
               실제 경험담을 바탕으로 한 생생한 후기입니다
             </span>
           </p>
@@ -121,7 +159,7 @@ export function TestimonialSection() {
                   }) scale(${index === 1 ? '1' : '0.9'})`,
                 }}
               >
-                <Card className="w-150 mx-4 card-standard h-[300px]">
+                <Card className="w-150 mx-4 card-ocean h-[300px] mobile-touch-feedback">
                   <CardContent className="p-6 h-full flex flex-col justify-between">
                     <div>
                       <div className="flex items-center mb-4">
@@ -161,9 +199,9 @@ export function TestimonialSection() {
         </div>
 
         {/* Mobile: 1 card */}
-        <div className="sm:hidden">
+        <div className="sm:hidden" ref={swipeRef}>
           <div className="flex justify-center">
-            <Card className="w-full max-w-sm card-standard">
+            <Card className="w-full max-w-sm card-ocean mobile-touch-feedback swipe-indicator">
               <CardContent className="p-6">
                 <div className="flex items-center mb-4">
                   <Quote className="h-8 w-8 text-brand-primary/20 mr-3" />

@@ -69,15 +69,21 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-cyan-200/30 shadow-sm">
       <div className="section-container">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 md:h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 gradient-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">DM</span>
+          <Link
+            href="/"
+            className="flex items-center space-x-2 mobile-touch-feedback"
+            aria-label="다이빙 메이트 홈으로 가기"
+          >
+            <div className="w-8 h-8 gradient-ocean rounded-lg flex items-center justify-center animate-float ripple-effect">
+              <span className="text-white font-bold text-sm" aria-hidden="true">
+                DM
+              </span>
             </div>
-            <span className="text-xl font-bold text-gray-900">
+            <span className="text-lg md:text-xl font-bold text-gray-900">
               다이빙 메이트
             </span>
           </Link>
@@ -234,151 +240,51 @@ export function Header() {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </Button>
+          {/* Mobile Menu Button - Simplified for bottom nav */}
+          <div className="md:hidden flex items-center space-x-2">
+            {user && (
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-600 relative p-2"
+                  aria-label="알림"
+                >
+                  <Bell className="h-5 w-5" />
+                  <span
+                    className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"
+                    aria-hidden="true"
+                  ></span>
+                </Button>
+
+                <Link href="/profile">
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full p-0"
+                  >
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage
+                        src={userProfile?.profilePicture}
+                        alt={userProfile?.displayName || '사용자'}
+                      />
+                      <AvatarFallback className="bg-blue-100 text-blue-600 text-xs">
+                        {userProfile?.displayName?.charAt(0) || 'U'}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </Link>
+              </>
+            )}
+
+            {!user && (
+              <Link href="/auth/login">
+                <Button variant="ghost" size="sm" className="text-sm">
+                  로그인
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4">
-            <div className="flex flex-col space-y-4">
-              {/* Navigation Links */}
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`text-sm font-medium px-2 py-1 rounded-md transition-colors duration-[var(--transition-normal)] ${
-                    isActive(item.href)
-                      ? 'text-brand-primary bg-blue-50'
-                      : 'text-gray-700 hover:text-brand-primary hover:bg-gray-50'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-
-              {/* Mobile Register Menu */}
-              <div className="space-y-1">
-                <p className="text-xs font-medium text-gray-500 px-2 py-1">
-                  등록하기
-                </p>
-                {registerMenuItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="flex items-center space-x-3 px-2 py-2 text-sm text-gray-700 hover:text-brand-primary hover:bg-gray-50 rounded-md"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <item.icon className="h-4 w-4 text-brand-primary" />
-                    <div className="flex flex-col">
-                      <span className="font-medium">{item.name}</span>
-                      <span className="text-xs text-gray-500">
-                        {item.description}
-                      </span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-
-              <div className="border-t border-gray-200 pt-4">
-                {loading ? (
-                  <div className="flex items-center space-x-3 px-2">
-                    <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse" />
-                    <div className="h-4 bg-gray-200 rounded w-24 animate-pulse" />
-                  </div>
-                ) : user ? (
-                  <div className="space-y-2">
-                    <div className="flex items-center space-x-3 px-2 py-2">
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage
-                          src={userProfile?.profilePicture}
-                          alt={userProfile?.displayName || '사용자'}
-                        />
-                        <AvatarFallback className="bg-blue-100 text-blue-600">
-                          {userProfile?.displayName?.charAt(0) || 'U'}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-medium text-sm">
-                          {userProfile?.displayName}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          {userProfile?.email}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="space-y-1">
-                      <Link
-                        href="/profile"
-                        className="flex items-center space-x-3 px-2 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        <User className="h-4 w-4" />
-                        <span>내 프로필</span>
-                      </Link>
-                      <Link
-                        href="/profile?tab=saved"
-                        className="flex items-center space-x-3 px-2 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        <Heart className="h-4 w-4" />
-                        <span>저장된 항목</span>
-                      </Link>
-                      <Link
-                        href="/profile?tab=settings"
-                        className="flex items-center space-x-3 px-2 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        <Settings className="h-4 w-4" />
-                        <span>설정</span>
-                      </Link>
-                      <button
-                        onClick={() => {
-                          handleSignOut();
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className="flex items-center space-x-3 px-2 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md w-full text-left"
-                      >
-                        <LogOut className="h-4 w-4" />
-                        <span>로그아웃</span>
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex flex-col space-y-2">
-                    <Link
-                      href="/auth/login"
-                      className="text-sm font-medium text-gray-700 hover:text-brand-primary px-2 py-1"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      카카오 로그인
-                    </Link>
-                    <Link
-                      href="/auth/register"
-                      className="text-sm font-medium btn-accent px-4 py-2 text-center"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      카카오로 시작하기
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </header>
   );

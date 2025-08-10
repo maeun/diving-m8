@@ -3,8 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { generateMetadata } from '@/utils/metadata';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
+import { ConditionalLayout } from '@/components/layout/ConditionalLayout';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
 
 const geistSans = Geist({
@@ -31,13 +30,9 @@ export default function RootLayout({
       >
         <ErrorBoundary>
           <AuthProvider>
-            <div className="flex flex-col min-h-screen">
-              <Header />
-              <main className="flex-1">
-                <ErrorBoundary>{children}</ErrorBoundary>
-              </main>
-              <Footer />
-            </div>
+            <ConditionalLayout>
+              <ErrorBoundary>{children}</ErrorBoundary>
+            </ConditionalLayout>
           </AuthProvider>
         </ErrorBoundary>
       </body>

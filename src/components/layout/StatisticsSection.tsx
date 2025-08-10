@@ -59,20 +59,26 @@ function StatCard({ icon: Icon, number, label, color, delay }: StatCardProps) {
   }, [isVisible, number, delay]);
 
   return (
-    <Card className="text-center p-6 bg-white/80 backdrop-blur-sm border-0 card-standard">
+    <Card
+      className="text-center p-4 sm:p-6 card-ocean mobile-card-stack mobile-touch-feedback animate-fade-in-scale"
+      style={{ animationDelay: `${delay}ms` }}
+    >
       <CardContent className="p-0">
         <div
-          className={`flex items-center justify-center w-16 h-16 ${color} rounded-full mx-auto mb-4`}
+          className={`flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 ${color} rounded-full mx-auto mb-4 animate-float ripple-effect`}
+          style={{ animationDelay: `${delay + 500}ms` }}
         >
-          <Icon className="h-8 w-8 text-white" />
+          <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
         </div>
         <h3
-          className="text-3xl font-bold text-gray-900 mb-2"
+          className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2"
           id={`stat-${label}`}
         >
           {count.toLocaleString()}+
         </h3>
-        <p className="text-gray-600 font-medium">{label}</p>
+        <p className="text-sm sm:text-base text-gray-600 font-medium">
+          {label}
+        </p>
       </CardContent>
     </Card>
   );
@@ -111,15 +117,57 @@ export function StatisticsSection() {
   ];
 
   return (
-    <section className="section-padding gradient-primary relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
+    <section className="section-padding gradient-ocean bubble-container relative overflow-hidden">
+      {/* Animated Bubbles */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="bubble w-8 h-8 animate-bubble"
+          style={{ animationDelay: '0s' }}
+        ></div>
+        <div
+          className="bubble w-12 h-12 animate-bubble"
+          style={{ animationDelay: '3s' }}
+        ></div>
+        <div
+          className="bubble w-6 h-6 animate-bubble"
+          style={{ animationDelay: '6s' }}
+        ></div>
+        <div
+          className="bubble w-10 h-10 animate-bubble"
+          style={{ animationDelay: '2s' }}
+        ></div>
+        <div
+          className="bubble w-5 h-5 animate-bubble"
+          style={{ animationDelay: '4s' }}
+        ></div>
+        <div
+          className="bubble w-14 h-14 animate-bubble"
+          style={{ animationDelay: '7s' }}
+        ></div>
+      </div>
+
+      {/* Ocean Wave Background */}
+      <div className="absolute inset-0 opacity-15">
         <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-10 left-10 w-20 h-20 bg-white rounded-full"></div>
-          <div className="absolute top-20 right-20 w-16 h-16 bg-white rounded-full"></div>
-          <div className="absolute bottom-10 left-1/4 w-12 h-12 bg-white rounded-full"></div>
-          <div className="absolute bottom-20 right-1/3 w-24 h-24 bg-white rounded-full"></div>
+          <div className="absolute top-10 left-10 w-20 h-20 bg-white rounded-full animate-ocean-wave"></div>
+          <div
+            className="absolute top-20 right-20 w-16 h-16 bg-white rounded-full animate-ocean-wave"
+            style={{ animationDelay: '1s' }}
+          ></div>
+          <div
+            className="absolute bottom-10 left-1/4 w-12 h-12 bg-white rounded-full animate-ocean-wave"
+            style={{ animationDelay: '2s' }}
+          ></div>
+          <div
+            className="absolute bottom-20 right-1/3 w-24 h-24 bg-white rounded-full animate-ocean-wave"
+            style={{ animationDelay: '3s' }}
+          ></div>
         </div>
+      </div>
+
+      {/* Wave Effect */}
+      <div className="wave-container absolute top-0 left-0 w-full h-24 rotate-180">
+        <div className="wave"></div>
       </div>
 
       <div className="relative section-container">

@@ -66,35 +66,70 @@ const featuredResorts = [
 
 export function FeaturedSection() {
   return (
-    <section className="section-padding bg-gray-50">
-      <div className="section-container">
+    <section className="section-padding gradient-ocean-light bubble-container relative overflow-hidden">
+      {/* Animated Bubbles */}
+      <div className="absolute inset-0 pointer-events-none opacity-30">
+        <div
+          className="bubble w-6 h-6 animate-bubble"
+          style={{ animationDelay: '1s' }}
+        ></div>
+        <div
+          className="bubble w-4 h-4 animate-bubble"
+          style={{ animationDelay: '4s' }}
+        ></div>
+        <div
+          className="bubble w-8 h-8 animate-bubble"
+          style={{ animationDelay: '7s' }}
+        ></div>
+        <div
+          className="bubble w-5 h-5 animate-bubble"
+          style={{ animationDelay: '2s' }}
+        ></div>
+        <div
+          className="bubble w-7 h-7 animate-bubble"
+          style={{ animationDelay: '5s' }}
+        ></div>
+      </div>
+
+      <div className="section-container relative">
         {/* Featured Instructors */}
         <div className="mb-20">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+            <div className="animate-fade-in-up">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
                 믿을 수 있는 전문 강사들
               </h2>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 풍부한 경험과 검증된 실력으로 안전하고 즐거운 다이빙을
                 선사합니다
               </p>
             </div>
-            <div className="flex gap-3">
-              <Link href="/search?type=instructor">
-                <Button variant="outline">모든 강사 보기</Button>
+            <div
+              className="flex flex-col sm:flex-row gap-2 sm:gap-3 animate-fade-in-up"
+              style={{ animationDelay: '0.3s' }}
+            >
+              <Link href="/search?type=instructor" className="w-full sm:w-auto">
+                <Button
+                  variant="outline"
+                  className="w-full sm:w-auto mobile-touch-feedback"
+                >
+                  모든 강사 보기
+                </Button>
               </Link>
-              <Link href="/instructor/register">
-                <Button className="btn-primary">강사 등록하기</Button>
+              <Link href="/instructor/register" className="w-full sm:w-auto">
+                <Button className="w-full sm:w-auto btn-primary mobile-touch-feedback">
+                  강사 등록하기
+                </Button>
               </Link>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {featuredInstructors.map((instructor) => (
+            {featuredInstructors.map((instructor, index) => (
               <Card
                 key={instructor.id}
-                className="group card-standard py-0 hover:scale-[1.02] hover:-translate-y-1"
+                className="group card-ocean py-0 mobile-card-stack mobile-touch-feedback animate-fade-in-scale"
+                style={{ animationDelay: `${0.6 + index * 0.2}s` }}
               >
                 <CardContent className="p-0">
                   <div className="relative h-48 bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-600 rounded-t-xl overflow-hidden">
@@ -179,30 +214,44 @@ export function FeaturedSection() {
 
         {/* Featured Resorts */}
         <div>
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+            <div
+              className="animate-fade-in-up"
+              style={{ animationDelay: '1.2s' }}
+            >
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
                 특별한 바다 속 휴식처
               </h2>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 완벽한 시설과 최상의 서비스로 잊지 못할 다이빙 여행을 선사합니다
               </p>
             </div>
-            <div className="flex gap-3">
-              <Link href="/search?type=resort">
-                <Button variant="outline">모든 리조트 보기</Button>
+            <div
+              className="flex flex-col sm:flex-row gap-2 sm:gap-3 animate-fade-in-up"
+              style={{ animationDelay: '1.5s' }}
+            >
+              <Link href="/search?type=resort" className="w-full sm:w-auto">
+                <Button
+                  variant="outline"
+                  className="w-full sm:w-auto mobile-touch-feedback"
+                >
+                  모든 리조트 보기
+                </Button>
               </Link>
-              <Link href="/resort/register">
-                <Button className="btn-secondary">리조트 등록하기</Button>
+              <Link href="/resort/register" className="w-full sm:w-auto">
+                <Button className="w-full sm:w-auto btn-secondary mobile-touch-feedback">
+                  리조트 등록하기
+                </Button>
               </Link>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {featuredResorts.map((resort) => (
+            {featuredResorts.map((resort, index) => (
               <Card
                 key={resort.id}
-                className="group card-standard py-0 hover:scale-[1.02] hover:-translate-y-1"
+                className="group card-ocean py-0 mobile-card-stack mobile-touch-feedback animate-fade-in-scale"
+                style={{ animationDelay: `${1.8 + index * 0.2}s` }}
               >
                 <CardContent className="p-0">
                   <div className="relative h-48 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600 rounded-t-xl overflow-hidden">

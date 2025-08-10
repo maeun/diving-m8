@@ -6,7 +6,9 @@ import { InstructorCard } from './InstructorCard';
 import { ResortCard } from './ResortCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Grid3X3, List, SortAsc, Search } from 'lucide-react';
+import { SearchResultsSkeleton } from '@/components/ui/loading-skeleton';
+import { EmptyState, ErrorState } from '@/components/ui/loading-states';
+import { Grid3X3, List, SortAsc, Search, Filter } from 'lucide-react';
 import { InstructorProfile, ResortProfile } from '@/types';
 import { SearchFiltersState } from './SearchFilters';
 
@@ -14,6 +16,7 @@ interface SearchResultsProps {
   type: 'instructor' | 'resort';
   results: (InstructorProfile | ResortProfile)[];
   loading: boolean;
+  error?: string | null;
   viewMode: 'grid' | 'list';
   onViewModeChange: (mode: 'grid' | 'list') => void;
   sortBy: string;
@@ -22,12 +25,15 @@ interface SearchResultsProps {
   savedItems: string[];
   filters?: SearchFiltersState;
   onFiltersChange?: (filters: SearchFiltersState) => void;
+  onRetry?: () => void;
+  query?: string;
 }
 
 export function SearchResults({
   type,
   results,
   loading,
+  error,
   viewMode,
   onViewModeChange,
   sortBy,
@@ -36,6 +42,8 @@ export function SearchResults({
   savedItems,
   filters,
   onFiltersChange,
+  onRetry,
+  query,
 }: SearchResultsProps) {
   const sortOptions = [
     { value: 'views', label: '조회수순' },
@@ -45,209 +53,156 @@ export function SearchResults({
       : []),
   ];
 
+  // Handle loading state
   if (loading) {
     return (
-      <div className="space-y-4">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <Card key={i} className="animate-pulse border-blue-100 card-standard">
-            <CardContent className="p-6">
-              <div className="flex gap-4">
-                <div className="w-24 h-24 bg-blue-100 rounded-lg"></div>
-                <div className="flex-1 space-y-2">
-                  <div className="h-4 bg-blue-100 rounded w-1/3"></div>
-                  <div className="h-3 bg-blue-100 rounded w-1/2"></div>
-                  <div className="h-3 bg-blue-100 rounded w-full"></div>
-                  <div className="h-3 bg-blue-100 rounded w-2/3"></div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="space-y-6">
+        {/* Header skeleton */}
+        <div className="flex justify-between items-center">
+          <div className="h-6 bg-gray-200 rounded w-48 animate-pulse"></div>
+          <div className="flex gap-2">
+            <div className="h-9 bg-gray-200 rounded w-24 animate-pulse"></div>
+            <div className="h-9 bg-gray-200 rounded w-32 animate-pulse"></div>
+          </div>
+        </div>
+        
+        {/* Results skeleton */}
+        <SearchResultsSkeleton count={9} type={type} />
       </div>
     );
   }
 
-  if (results.length === 0) {
+  // Handle error state
+  if (error) {
     return (
-      <Card className="card-standard">
-        <CardContent className="text-center py-12">
-          <Search className="h-12 w-12 text-brand-primary/50 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            {type === 'instructor' ? '강사를' : '리조트를'} 찾을 수 없습니다
-          </h3>
-          <p className="text-gray-600 mb-6">
-            검색 조건이나 필터를 조정해서 원하는 결과를 찾아보세요.
-          </p>
+      <ErrorState
+        title="검색 중 문제가 발생했습니다"
+        description={error}
+        onRetry={onRetry}
+        retryText="다시 검색"
+      />
+    );
+  }
 
-          {/* Suggestions */}
-          <div className="space-y-4">
-            <div className="text-sm text-gray-500 mb-3">
-              다음을 시도해보세요:
-            </div>
-            <div className="flex flex-wrap justify-center gap-2 mb-6">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  onFiltersChange({
-                    query: '',
-                    location: '',
-                    specialties: [],
-                    priceRange: [0, 5000],
-                  })
-                }
-              >
-                모든 필터 초기화
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  onFiltersChange({
-                    ...filters,
-                    priceRange: [0, 5000],
-                  })
-                }
-              >
-                가격 범위 확대
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  onFiltersChange({
-                    ...filters,
-                    location: '',
-                  })
-                }
-              >
-                지역 제한 해제
-              </Button>
-            </div>
+  // Handle empty results
+  if (!loading && results.length === 0) {
+    const isFiltered = filters && Object.values(filters).some(value => 
+      value && (typeof value === 'string' ? value.length > 0 : 
+      Array.isArray(value) ? value.length > 0 : 
+      typeof value === 'object' ? Object.values(value).some(v => v !== undefined) : false)
+    );
 
-            {/* Alternative Actions */}
-            <div className="border-t pt-6">
-              <p className="text-sm text-gray-600 mb-4">
-                원하는 {type === 'instructor' ? '강사' : '리조트'}를 찾지
-                못하셨나요?
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Link
-                  href={
-                    type === 'instructor'
-                      ? '/instructor/register'
-                      : '/resort/register'
-                  }
-                >
-                  <Button
-                    className={
-                      type === 'instructor' ? 'btn-primary' : 'btn-secondary'
-                    }
-                  >
-                    {type === 'instructor'
-                      ? '강사로 등록하기'
-                      : '리조트 등록하기'}
-                  </Button>
-                </Link>
-                <Link href="/contact">
-                  <Button variant="outline">맞춤 추천 요청하기</Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+    return (
+      <EmptyState
+        icon={Search}
+        title={isFiltered ? "검색 결과가 없습니다" : `등록된 ${type === 'instructor' ? '강사' : '리조트'}가 없습니다`}
+        description={isFiltered 
+          ? "검색 조건을 조정해보세요. 다른 지역이나 조건으로 다시 검색해보시기 바랍니다."
+          : `아직 등록된 ${type === 'instructor' ? '강사' : '리조트'}가 없습니다. 나중에 다시 확인해주세요.`
+        }
+        action={isFiltered ? {
+          label: "필터 초기화",
+          onClick: () => onFiltersChange?.({
+            location: '',
+            priceRange: [0, 1000000],
+            specialties: [],
+            experience: '',
+            rating: 0
+          })
+        } : undefined}
+      />
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6" role="region" aria-label="검색 결과">
       {/* Results Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-            <span
-              className={`px-2 py-1 rounded-full text-sm ${
-                type === 'instructor'
-                  ? 'bg-blue-100 text-brand-primary'
-                  : 'bg-emerald-100 text-brand-secondary'
-              }`}
-            >
-              {results.length}
-            </span>{' '}
-            {type === 'instructor' ? '강사' : '리조트'} 발견
+          <h2 className="text-lg font-semibold text-gray-900">
+            {type === 'instructor' ? '강사' : '리조트'} 검색결과
+            {query && <span className="text-brand-primary ml-1">"{query}"</span>}
           </h2>
+          <p className="text-sm text-gray-600 mt-1">
+            총 {results.length.toLocaleString()}개 결과
+          </p>
         </div>
 
         <div className="flex items-center gap-2">
-          {/* Sort Dropdown */}
-          <select
-            value={sortBy}
-            onChange={(e) => onSortChange(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-[var(--radius-input)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)] bg-white transition-all duration-[var(--transition-normal)]"
-          >
-            {sortOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-
           {/* View Mode Toggle */}
-          <div className="flex border border-gray-200 rounded-[var(--radius-button)]">
+          <div className="flex border border-gray-300 rounded-md" role="group" aria-label="보기 모드 선택">
             <Button
               variant={viewMode === 'grid' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => onViewModeChange('grid')}
-              className={`rounded-r-none transition-all duration-[var(--transition-normal)] ${
-                viewMode === 'grid'
-                  ? 'bg-brand-primary text-white hover:bg-[var(--brand-primary-hover)]'
-                  : 'bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-brand-primary'
-              }`}
+              className="rounded-r-none border-r-0"
+              aria-label="그리드 보기"
+              aria-pressed={viewMode === 'grid'}
             >
-              <Grid3X3 className="h-4 w-4" />
+              <Grid3X3 className="h-4 w-4" aria-hidden="true" />
             </Button>
             <Button
               variant={viewMode === 'list' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => onViewModeChange('list')}
-              className={`rounded-l-none transition-all duration-[var(--transition-normal)] ${
-                viewMode === 'list'
-                  ? 'bg-brand-primary text-white hover:bg-[var(--brand-primary-hover)]'
-                  : 'bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-brand-primary'
-              }`}
+              className="rounded-l-none"
+              aria-label="목록 보기"
+              aria-pressed={viewMode === 'list'}
             >
-              <List className="h-4 w-4" />
+              <List className="h-4 w-4" aria-hidden="true" />
             </Button>
+          </div>
+
+          {/* Sort Dropdown */}
+          <div className="relative">
+            <select
+              value={sortBy}
+              onChange={(e) => onSortChange(e.target.value)}
+              className="appearance-none bg-white border border-gray-300 rounded-md px-3 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-brand-primary"
+              aria-label="정렬 기준 선택"
+            >
+              {sortOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <SortAsc className="absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" aria-hidden="true" />
           </div>
         </div>
       </div>
 
       {/* Results Grid/List */}
-      <div
-        className={
-          viewMode === 'grid'
-            ? 'grid grid-cols-1 md:grid-cols-2 gap-6'
-            : 'space-y-4'
-        }
-      >
-        {results.map((item) =>
-          type === 'instructor' ? (
-            <InstructorCard
-              key={item.id}
-              instructor={item as InstructorProfile}
-              onSave={onSave}
-              isSaved={savedItems.includes(item.id)}
-            />
-          ) : (
-            <ResortCard
-              key={item.id}
-              resort={item as ResortProfile}
-              onSave={onSave}
-              isSaved={savedItems.includes(item.id)}
-            />
-          )
-        )}
+      <div className={
+        viewMode === 'grid' 
+          ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          : "space-y-4"
+      }>
+        {results.map((item) => {
+          const isInstructor = 'experience' in item;
+          const isSaved = savedItems.includes(item.id);
+
+          if (isInstructor && type === 'instructor') {
+            return (
+              <InstructorCard
+                key={item.id}
+                instructor={item as InstructorProfile}
+                onSave={onSave}
+                isSaved={isSaved}
+              />
+            );
+          } else if (!isInstructor && type === 'resort') {
+            return (
+              <ResortCard
+                key={item.id}
+                resort={item as ResortProfile}
+                onSave={onSave}
+                isSaved={isSaved}
+              />
+            );
+          }
+          return null;
+        })}
       </div>
     </div>
   );
